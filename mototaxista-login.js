@@ -92,11 +92,11 @@ function getApprovedMototaxistas() {
 function handleLogin(event) {
     event.preventDefault();
     
-    const phone = document.getElementById('loginPhone').value.trim();
+    const cnh = document.getElementById('loginCnh').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
     
     // Validação: campos obrigatórios
-    if (!phone || !password) {
+    if (!cnh || !password) {
         showAlert('Todos os campos são obrigatórios.', 'danger');
         return;
     }
@@ -104,13 +104,13 @@ function handleLogin(event) {
     // Obtém mototaxistas aprovados do localStorage
     const approvedMototaxistas = getApprovedMototaxistas();
     
-    // Busca o mototaxista pelo telefone
-    const mototaxista = approvedMototaxistas.find(m => m.phone === phone.replace(/\D/g, ''));
+    // Busca o mototaxista pela CNH
+    const mototaxista = approvedMototaxistas.find(m => m.cnh === cnh);
     
     if (!mototaxista) {
         // Verifica se existe cadastro pendente
         const pendingRegistrations = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
-        const pendingMototaxista = pendingRegistrations.find(m => m.cnh === phone.replace(/\D/g, ''));
+        const pendingMototaxista = pendingRegistrations.find(m => m.cnh === cnh);
         
         if (pendingMototaxista) {
             showAlert('Seu cadastro ainda está sob análise. Aguarde a aprovação do administrador.', 'warning');
@@ -118,7 +118,7 @@ function handleLogin(event) {
         }
         
         // Mototaxista não encontrado
-        showAlert('Telefone não cadastrado ou não aprovado.', 'danger');
+        showAlert('CNH não cadastrada ou não aprovada.', 'danger');
         return;
     }
     

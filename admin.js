@@ -217,7 +217,7 @@ function executeAction() {
         // Adiciona à lista de mototaxistas aprovados para login
         const approvedMototaxista = {
             phone: registration.cnh, // Usando CNH como telefone para login
-            password: '123456', // Senha padrão
+            password: registration.password, // Senha do cadastro
             name: `Mototaxista ${registration.cnh.slice(-4)}`, // Nome baseado no CNH
             cnh: registration.cnh,
             status: 'approved',

@@ -46,11 +46,18 @@ function handleRegistration(event) {
     
     const cnh = document.getElementById('cnh').value.trim();
     const vehicleDocument = document.getElementById('vehicleDocument').value.trim();
+    const password = document.getElementById('password').value.trim();
     const photo = photoInput.files[0];
     
     // Validação: campos obrigatórios
-    if (!cnh || !vehicleDocument || !photo) {
+    if (!cnh || !vehicleDocument || !password || !photo) {
         showAlert('Todos os campos são obrigatórios.', 'danger');
+        return;
+    }
+    
+    // Validação da senha
+    if (password.length < 6) {
+        showAlert('A senha deve ter pelo menos 6 caracteres.', 'warning');
         return;
     }
     
@@ -77,6 +84,7 @@ function handleRegistration(event) {
         id: Date.now(), // ID único baseado no timestamp
         cnh: cnh,
         vehicleDocument: vehicleDocument,
+        password: password,
         photoName: photo.name,
         photoSize: photo.size,
         registrationDate: new Date().toLocaleString('pt-BR'),
