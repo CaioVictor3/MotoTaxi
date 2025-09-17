@@ -14,14 +14,18 @@ Sistema web simplificado para gestão de moto táxi com três módulos principai
 
 ```
 Moto Taxi/
-├── index.html          # Página principal com navegação
-├── passageiro.html     # Tela do passageiro
-├── passageiro.js       # Lógica do passageiro
-├── mototaxista.html    # Tela do mototaxista
-├── mototaxista.js      # Lógica do mototaxista
-├── admin.html          # Tela do administrador
-├── admin.js            # Lógica do administrador
-└── README.md           # Documentação
+├── index.html                    # Página principal com navegação
+├── passageiro.html              # Tela do passageiro (login/cadastro)
+├── passageiro.js                # Lógica do passageiro
+├── passageiro-dashboard.html    # Dashboard do passageiro logado
+├── mototaxista.html             # Tela do mototaxista (cadastro)
+├── mototaxista.js               # Lógica do mototaxista
+├── mototaxista-login.html       # Tela de login do mototaxista
+├── mototaxista-login.js         # Lógica de login do mototaxista
+├── mototaxista-dashboard.html   # Dashboard do mototaxista logado
+├── admin.html                   # Tela do administrador
+├── admin.js                     # Lógica do administrador
+└── README.md                    # Documentação
 ```
 
 ## 🎯 Funcionalidades Implementadas
@@ -114,6 +118,25 @@ Todas as telas são totalmente responsivas e funcionam em:
 - Limite de tamanho de arquivo (5MB)
 - Verificação de telefone já cadastrado
 - Confirmação de ações críticas (aprovar/reprovar)
+- **Controle de acesso**: Mototaxistas só podem fazer login após aprovação do administrador
+
+## 🔧 Correções e Melhorias Implementadas
+
+### Layout e UX
+- ✅ **Corrigido**: Botões de navegação (Login/Cadastro) agora aparecem dentro dos formulários
+- ✅ **Corrigido**: Alertas de login do mototaxista agora aparecem dentro do formulário
+- ✅ **Melhorado**: Interface mais moderna com gradientes e animações
+
+### Controle de Acesso
+- ✅ **Implementado**: Mototaxistas não podem fazer login sem aprovação do administrador
+- ✅ **Implementado**: Verificação de status de aprovação antes do login
+- ✅ **Implementado**: Mensagens específicas para cadastros pendentes
+
+### Funcionalidades Adicionais
+- ✅ **Criado**: Dashboard do passageiro após login bem-sucedido
+- ✅ **Criado**: Dashboard do mototaxista após login bem-sucedido
+- ✅ **Implementado**: Sistema de logout com confirmação
+- ✅ **Implementado**: Persistência de dados de usuário logado
 
 ## 🚀 Execução
 

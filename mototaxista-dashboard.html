@@ -52,16 +52,17 @@
             z-index: 2;
         }
 
-        .dashboard-card {
-            background: white;
+        .card-custom {
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 3rem;
-            margin-top: -60px;
-            position: relative;
-            z-index: 10;
-            border: 1px solid rgba(255,255,255,0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.5);
             backdrop-filter: blur(10px);
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
         .btn-custom {
@@ -105,86 +106,26 @@
             transform: translateY(-2px);
         }
 
-        .btn-outline-danger {
-            border: 2px solid var(--danger-color);
-            color: var(--danger-color);
-            background: transparent;
-        }
-
-        .btn-outline-danger:hover {
-            background: var(--danger-color);
-            transform: translateY(-2px);
-        }
-
-        .user-info {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
             border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-
-        .ride-card {
-            border: 2px solid #e9ecef;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: var(--transition);
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .ride-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .ride-card.accepted {
-            border-color: var(--primary-color);
-            background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
-        }
-
-        .ride-card.rejected {
-            border-color: var(--danger-color);
-            background: linear-gradient(135deg, #fff8f8 0%, #ffe8e8 100%);
-        }
-
-        .status-badge {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-weight: 600;
-        }
-
-        .rating-stars {
-            color: var(--warning-color);
-        }
-
-        .card {
-            border: none;
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .card-body {
             padding: 2rem;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .btn-group .btn {
-            border-radius: 50px;
-            margin: 0 5px;
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
         }
 
-        .hidden {
-            display: none !important;
+        .stats-label {
+            color: var(--dark-color);
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .display-5 {
@@ -198,15 +139,8 @@
             opacity: 0.9;
         }
 
-        .btn-outline-secondary {
-            border: 2px solid #6c757d;
-            color: #6c757d;
-            background: transparent;
-        }
-
-        .btn-outline-secondary:hover {
-            background: #6c757d;
-            transform: translateY(-2px);
+        .fa-4x {
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
     </style>
 </head>
@@ -219,7 +153,7 @@
                     <h1 class="display-5 fw-bold mb-3">
                         <i class="fas fa-motorcycle me-3"></i>Dashboard do Mototaxista
                     </h1>
-                    <p class="lead mb-0">Gerencie suas corridas e aceite novas solicitações</p>
+                    <p class="lead mb-0" id="welcomeMessage">Bem-vindo(a) ao sistema!</p>
                 </div>
             </div>
         </div>
@@ -228,118 +162,166 @@
     <!-- Main Content -->
     <section class="py-5">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 col-md-12">
-                    <!-- User Info -->
-                    <div class="user-info">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <h4 class="mb-2">
-                                    <i class="fas fa-motorcycle me-2"></i>
-                                    <span id="userName">Carregando...</span>
-                                </h4>
-                                <p class="text-muted mb-0">
-                                    <i class="fas fa-phone me-2"></i>
-                                    <span id="userPhone">Carregando...</span>
-                                </p>
-                                <p class="text-muted mb-0">
-                                    <i class="fas fa-star me-2"></i>
-                                    <span id="userRating">Carregando...</span>
-                                </p>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <button class="btn btn-outline-secondary btn-sm" onclick="logout()">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Sair
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dashboard Card -->
-                    <div class="dashboard-card">
-                        <!-- Status do Mototaxista -->
-                        <div class="text-center mb-4">
-                            <h3 class="mb-3">
-                                <i class="fas fa-toggle-on text-success me-2"></i>
-                                Status: <span id="statusText" class="text-success">Online</span>
-                            </h3>
-                            <button class="btn btn-outline-success btn-custom" id="toggleStatusBtn" onclick="toggleStatus()">
-                                <i class="fas fa-toggle-on me-2"></i>Ficar Offline
-                            </button>
-                        </div>
-
-                        <!-- Corridas Disponíveis -->
-                        <div class="mb-5">
-                            <h4 class="mb-4">
-                                <i class="fas fa-list me-2"></i>
-                                Corridas Disponíveis
-                            </h4>
-                            <div id="availableRides">
-                                <!-- As corridas serão carregadas dinamicamente -->
-                            </div>
-                        </div>
-
-                        <!-- Corridas Aceitas -->
-                        <div class="mb-5">
-                            <h4 class="mb-4">
-                                <i class="fas fa-check-circle me-2"></i>
-                                Corridas Aceitas
-                            </h4>
-                            <div id="acceptedRides">
-                                <!-- As corridas aceitas serão carregadas dinamicamente -->
-                            </div>
-                        </div>
-
-                        <!-- Estatísticas -->
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-primary">
-                                            <i class="fas fa-route me-2"></i>
-                                            <span id="totalRides">0</span>
-                                        </h5>
-                                        <p class="card-text">Total de Corridas</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-success">
-                                            <i class="fas fa-star me-2"></i>
-                                            <span id="averageRating">0.0</span>
-                                        </h5>
-                                        <p class="card-text">Avaliação Média</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-warning">
-                                            <i class="fas fa-dollar-sign me-2"></i>
-                                            <span id="totalEarnings">R$ 0,00</span>
-                                        </h5>
-                                        <p class="card-text">Ganhos Totais</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Back to Home -->
-                    <div class="text-center mt-4">
-                        <a href="index.html" class="text-decoration-none">
-                            <i class="fas fa-home me-2"></i>Voltar ao Início
-                        </a>
+            <!-- Statistics -->
+            <div class="row mb-5">
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number" id="totalRides">0</div>
+                        <div class="stats-label">Corridas Realizadas</div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number" id="rating">0.0</div>
+                        <div class="stats-label">Avaliação Média</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number" id="earnings">R$ 0</div>
+                        <div class="stats-label">Ganhos Totais</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Aceitar Corridas -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-map-marker-alt fa-3x text-success"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Aceitar Corridas</h4>
+                            <p class="card-text text-muted mb-4">
+                                Visualize e aceite corridas disponíveis na sua região
+                            </p>
+                            <button class="btn btn-success btn-custom w-100" onclick="aceitarCorridas()">
+                                <i class="fas fa-check-circle me-2"></i>Aceitar Corridas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Online/Offline -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-power-off fa-3x text-warning"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Status</h4>
+                            <p class="card-text text-muted mb-4">
+                                Gerencie seu status de disponibilidade
+                            </p>
+                            <button class="btn btn-outline-success btn-custom w-100" id="statusBtn" onclick="toggleStatus()">
+                                <i class="fas fa-toggle-off me-2"></i>Ficar Online
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Histórico de Corridas -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-history fa-3x text-info"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Histórico</h4>
+                            <p class="card-text text-muted mb-4">
+                                Visualize seu histórico de corridas realizadas
+                            </p>
+                            <button class="btn btn-outline-success btn-custom w-100" onclick="verHistorico()">
+                                <i class="fas fa-list me-2"></i>Ver Histórico
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-user-cog fa-3x text-primary"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Meu Perfil</h4>
+                            <p class="card-text text-muted mb-4">
+                                Gerencie suas informações pessoais e documentos
+                            </p>
+                            <button class="btn btn-outline-success btn-custom w-100" onclick="editarPerfil()">
+                                <i class="fas fa-edit me-2"></i>Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logout -->
+            <div class="text-center mt-5">
+                <button class="btn btn-outline-danger btn-custom me-3" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Sair
+                </button>
+                <a href="index.html" class="text-decoration-none">
+                    <i class="fas fa-home me-2"></i>Voltar ao Início
+                </a>
             </div>
         </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="mototaxista-dashboard.js"></script>
+    <script>
+        let isOnline = false;
+
+        // Carrega informações do usuário logado
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+            
+            if (usuarioLogado.tipo === 'mototaxista') {
+                document.getElementById('welcomeMessage').textContent = `Bem-vindo(a), ${usuarioLogado.nome}!`;
+                document.getElementById('totalRides').textContent = usuarioLogado.totalRides || 0;
+                document.getElementById('rating').textContent = usuarioLogado.rating || '0.0';
+                document.getElementById('earnings').textContent = `R$ ${(usuarioLogado.totalRides || 0) * 15}`;
+            } else {
+                // Se não for mototaxista, redireciona para login
+                window.location.href = 'mototaxista-login.html';
+            }
+        });
+
+        function aceitarCorridas() {
+            alert('Funcionalidade de aceitar corridas em desenvolvimento.');
+        }
+
+        function toggleStatus() {
+            isOnline = !isOnline;
+            const statusBtn = document.getElementById('statusBtn');
+            
+            if (isOnline) {
+                statusBtn.innerHTML = '<i class="fas fa-toggle-on me-2"></i>Ficar Offline';
+                statusBtn.className = 'btn btn-success btn-custom w-100';
+                alert('Você está online! Corridas serão enviadas para você.');
+            } else {
+                statusBtn.innerHTML = '<i class="fas fa-toggle-off me-2"></i>Ficar Online';
+                statusBtn.className = 'btn btn-outline-success btn-custom w-100';
+                alert('Você está offline.');
+            }
+        }
+
+        function verHistorico() {
+            alert('Funcionalidade de histórico em desenvolvimento.');
+        }
+
+        function editarPerfil() {
+            alert('Funcionalidade de edição de perfil em desenvolvimento.');
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('usuarioLogado');
+                window.location.href = 'mototaxista-login.html';
+            }
+        }
+    </script>
 </body>
 </html>

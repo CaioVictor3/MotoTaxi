@@ -52,23 +52,23 @@
             z-index: 2;
         }
 
-        .dashboard-card {
-            background: white;
+        .card-custom {
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 3rem;
-            margin-top: -60px;
-            position: relative;
-            z-index: 10;
-            border: 1px solid rgba(255,255,255,0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.5);
             backdrop-filter: blur(10px);
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
         .btn-custom {
             border-radius: 50px;
-            padding: 15px 40px;
+            padding: 12px 30px;
             font-weight: 600;
-            font-size: 1.1rem;
             transition: var(--transition);
             border: none;
             position: relative;
@@ -90,108 +90,24 @@
             left: 100%;
         }
 
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .status-online {
-            background-color: var(--success-color);
-        }
-
-        .status-offline {
-            background-color: var(--danger-color);
-        }
-
-        .user-info {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-
-        .call-button {
-            background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
-            border: none;
-            color: white;
-            transition: var(--transition);
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #20c997);
             box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         }
 
-        .call-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
-        }
-
-        .call-button:disabled {
-            background: #6c757d;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .card {
-            border: none;
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .card-header {
-            border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
-            border: none;
-        }
-
-        .badge {
-            border-radius: 50px;
-            padding: 8px 16px;
-            font-weight: 600;
-        }
-
-        .table {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .table thead th {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            font-weight: 600;
-        }
-
-        .table tbody tr {
-            transition: var(--transition);
-        }
-
-        .table tbody tr:hover {
-            background-color: rgba(102, 126, 234, 0.05);
-        }
-
-        .alert {
-            border-radius: var(--border-radius);
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .btn-outline-secondary {
-            border: 2px solid #6c757d;
-            color: #6c757d;
+        .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
             background: transparent;
         }
 
-        .btn-outline-secondary:hover {
-            background: #6c757d;
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
             transform: translateY(-2px);
         }
 
@@ -205,6 +121,10 @@
             font-weight: 400;
             opacity: 0.9;
         }
+
+        .fa-4x {
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
     </style>
 </head>
 <body>
@@ -216,7 +136,7 @@
                     <h1 class="display-5 fw-bold mb-3">
                         <i class="fas fa-user me-3"></i>Dashboard do Passageiro
                     </h1>
-                    <p class="lead mb-0">Solicite sua corrida de mototáxi</p>
+                    <p class="lead mb-0" id="welcomeMessage">Bem-vindo(a) ao sistema!</p>
                 </div>
             </div>
         </div>
@@ -225,139 +145,128 @@
     <!-- Main Content -->
     <section class="py-5">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-md-10">
-                    <!-- User Info -->
-                    <div class="user-info">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <h4 class="mb-2">
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    <span id="userName">Carregando...</span>
-                                </h4>
-                                <p class="text-muted mb-0">
-                                    <i class="fas fa-phone me-2"></i>
-                                    <span id="userPhone">Carregando...</span>
-                                </p>
+            <div class="row g-4">
+                <!-- Solicitar Corrida -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-motorcycle fa-3x text-primary"></i>
                             </div>
-                            <div class="col-md-4 text-end">
-                                <button class="btn btn-outline-secondary btn-sm" onclick="logout()">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Sair
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dashboard Card -->
-                    <div class="dashboard-card">
-                        <div class="text-center mb-4">
-                            <h3 class="mb-3">
-                                <i class="fas fa-motorcycle text-primary me-2"></i>
-                                Solicitar Corrida
-                            </h3>
-                            <p class="text-muted">
-                                Clique no botão abaixo para chamar um mototaxista disponível
+                            <h4 class="card-title mb-3">Solicitar Corrida</h4>
+                            <p class="card-text text-muted mb-4">
+                                Solicite uma corrida de moto táxi para sua localização
                             </p>
-                        </div>
-
-                        <!-- Status da Solicitação -->
-                        <div class="text-center mb-4">
-                            <div class="alert alert-info" id="statusAlert">
-                                <i class="fas fa-info-circle me-2"></i>
-                                <span id="statusText">Pronto para solicitar uma corrida</span>
-                            </div>
-                        </div>
-
-                        <!-- Botão de Chamada -->
-                        <div class="text-center mb-4">
-                            <button class="btn call-button btn-custom" id="callButton" onclick="callMototaxista()">
-                                <i class="fas fa-phone me-2"></i>
-                                Chamar Mototaxista
+                            <button class="btn btn-primary btn-custom w-100" onclick="solicitarCorrida()">
+                                <i class="fas fa-map-marker-alt me-2"></i>Solicitar Agora
                             </button>
                         </div>
-
-                        <!-- Informações da Corrida (quando ativa) -->
-                        <div class="hidden" id="rideInfo">
-                            <div class="card border-primary">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">
-                                        <i class="fas fa-route me-2"></i>
-                                        Corrida em Andamento
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Mototaxista:</strong> <span id="mototaxistaName">João Silva</span></p>
-                                            <p><strong>Telefone:</strong> <span id="mototaxistaPhone">(11) 99999-9999</span></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p><strong>Status:</strong> <span class="badge bg-warning" id="rideStatus">A caminho</span></p>
-                                            <p><strong>Tempo estimado:</strong> <span id="estimatedTime">5-10 min</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="text-center mt-3">
-                                        <button class="btn btn-danger btn-sm" onclick="cancelRide()">
-                                            <i class="fas fa-times me-2"></i>Cancelar Corrida
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Histórico de Corridas -->
-                        <div class="mt-5">
-                            <h5 class="mb-3">
-                                <i class="fas fa-history me-2"></i>
-                                Histórico de Corridas
-                            </h5>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Data</th>
-                                            <th>Mototaxista</th>
-                                            <th>Status</th>
-                                            <th>Valor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="rideHistory">
-                                        <tr>
-                                            <td>15/01/2024 14:30</td>
-                                            <td>João Silva</td>
-                                            <td><span class="badge bg-success">Concluída</span></td>
-                                            <td>R$ 15,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>14/01/2024 09:15</td>
-                                            <td>Maria Santos</td>
-                                            <td><span class="badge bg-success">Concluída</span></td>
-                                            <td>R$ 12,50</td>
-                                        </tr>
-                                        <tr>
-                                            <td>13/01/2024 18:45</td>
-                                            <td>Pedro Costa</td>
-                                            <td><span class="badge bg-warning">Cancelada</span></td>
-                                            <td>-</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Back to Home -->
-                    <div class="text-center mt-4">
-                        <a href="index.html" class="text-decoration-none">
-                            <i class="fas fa-home me-2"></i>Voltar ao Início
-                        </a>
                     </div>
                 </div>
+
+                <!-- Histórico de Corridas -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-history fa-3x text-success"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Histórico</h4>
+                            <p class="card-text text-muted mb-4">
+                                Visualize seu histórico de corridas realizadas
+                            </p>
+                            <button class="btn btn-success btn-custom w-100" onclick="verHistorico()">
+                                <i class="fas fa-list me-2"></i>Ver Histórico
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-user-cog fa-3x text-info"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Meu Perfil</h4>
+                            <p class="card-text text-muted mb-4">
+                                Gerencie suas informações pessoais
+                            </p>
+                            <button class="btn btn-outline-primary btn-custom w-100" onclick="editarPerfil()">
+                                <i class="fas fa-edit me-2"></i>Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configurações -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <i class="fas fa-cog fa-3x text-warning"></i>
+                            </div>
+                            <h4 class="card-title mb-3">Configurações</h4>
+                            <p class="card-text text-muted mb-4">
+                                Configure suas preferências de uso
+                            </p>
+                            <button class="btn btn-outline-primary btn-custom w-100" onclick="abrirConfiguracoes()">
+                                <i class="fas fa-sliders-h me-2"></i>Configurar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logout -->
+            <div class="text-center mt-5">
+                <button class="btn btn-outline-danger btn-custom me-3" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Sair
+                </button>
+                <a href="index.html" class="text-decoration-none">
+                    <i class="fas fa-home me-2"></i>Voltar ao Início
+                </a>
             </div>
         </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="passageiro-dashboard.js"></script>
+    <script>
+        // Carrega informações do usuário logado
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+            
+            if (usuarioLogado.tipo === 'passageiro') {
+                document.getElementById('welcomeMessage').textContent = `Bem-vindo(a), ${usuarioLogado.nome}!`;
+            } else {
+                // Se não for passageiro, redireciona para login
+                window.location.href = 'passageiro.html';
+            }
+        });
+
+        function solicitarCorrida() {
+            alert('Funcionalidade de solicitação de corrida em desenvolvimento.');
+        }
+
+        function verHistorico() {
+            alert('Funcionalidade de histórico em desenvolvimento.');
+        }
+
+        function editarPerfil() {
+            alert('Funcionalidade de edição de perfil em desenvolvimento.');
+        }
+
+        function abrirConfiguracoes() {
+            alert('Funcionalidade de configurações em desenvolvimento.');
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('usuarioLogado');
+                window.location.href = 'passageiro.html';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -104,19 +104,19 @@ function handleLogin(event) {
     // Obtém mototaxistas aprovados do localStorage
     const approvedMototaxistas = getApprovedMototaxistas();
     
-    // Busca o mototaxista pela CNH
+    // Primeiro verifica se existe cadastro pendente
+    const pendingRegistrations = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+    const pendingMototaxista = pendingRegistrations.find(m => m.cnh === cnh);
+    
+    if (pendingMototaxista) {
+        showAlert('Seu cadastro ainda está sob análise. Aguarde a aprovação do administrador.', 'warning');
+        return;
+    }
+    
+    // Busca o mototaxista pela CNH nos aprovados
     const mototaxista = approvedMototaxistas.find(m => m.cnh === cnh);
     
     if (!mototaxista) {
-        // Verifica se existe cadastro pendente
-        const pendingRegistrations = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
-        const pendingMototaxista = pendingRegistrations.find(m => m.cnh === cnh);
-        
-        if (pendingMototaxista) {
-            showAlert('Seu cadastro ainda está sob análise. Aguarde a aprovação do administrador.', 'warning');
-            return;
-        }
-        
         // Mototaxista não encontrado
         showAlert('CNH não cadastrada ou não aprovada.', 'danger');
         return;
@@ -128,8 +128,8 @@ function handleLogin(event) {
         return;
     }
     
+    // Verifica se o mototaxista está realmente aprovado
     if (mototaxista.status !== 'approved') {
-        // Mototaxista não aprovado
         showAlert('Seu cadastro ainda não foi aprovado. Aguarde a aprovação do administrador.', 'warning');
         return;
     }
