@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passageiro - Moto Taxi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-user me-3"></i>Área do Passageiro
+                    </h1>
+                    <p class="lead mb-0">Cadastre-se ou faça login para solicitar corridas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <!-- Navigation Tabs -->
+                    <div class="text-center mb-4">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary btn-custom" id="loginTab">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </button>
+                            <button type="button" class="btn btn-primary btn-custom" id="registerTab">
+                                <i class="fas fa-user-plus me-2"></i>Cadastro
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Alert Messages -->
+                    <div id="alertContainer"></div>
+
+                    <!-- Login Form -->
+                    <div class="form-container" id="loginForm">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-sign-in-alt text-primary me-2"></i>Login
+                        </h3>
+                        <form id="loginFormElement">
+                            <div class="mb-3">
+                                <label for="loginPhone" class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Telefone
+                                </label>
+                                <input type="tel" class="form-control" id="loginPhone" placeholder="(11) 99999-9999" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="loginPassword" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Senha
+                                </label>
+                                <input type="password" class="form-control" id="loginPassword" placeholder="Digite sua senha" required>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary btn-custom w-100">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Entrar
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-decoration-none" id="forgotPassword">
+                                    <i class="fas fa-key me-1"></i>Esqueci minha senha
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div class="form-container hidden" id="registerForm">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-user-plus text-success me-2"></i>Cadastro
+                        </h3>
+                        <form id="registerFormElement">
+                            <div class="mb-3">
+                                <label for="registerName" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Nome Completo
+                                </label>
+                                <input type="text" class="form-control" id="registerName" placeholder="Digite seu nome completo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="registerPhone" class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Telefone
+                                </label>
+                                <input type="tel" class="form-control" id="registerPhone" placeholder="(11) 99999-9999" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="registerPassword" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Senha
+                                </label>
+                                <input type="password" class="form-control" id="registerPassword" placeholder="Digite uma senha segura" required>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-success btn-custom w-100">
+                                    <i class="fas fa-user-plus me-2"></i>Cadastrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div class="form-container hidden" id="successMessage">
+                        <div class="text-center">
+                            <div class="mb-4">
+                                <i class="fas fa-check-circle fa-4x text-success"></i>
+                            </div>
+                            <h3 class="text-success mb-3">Cadastro realizado com sucesso!</h3>
+                            <p class="text-muted mb-4">Um link de confirmação foi enviado para seu telefone.</p>
+                            <button type="button" class="btn btn-outline-primary btn-custom" id="backToLogin">
+                                <i class="fas fa-arrow-left me-2"></i>Voltar ao Login
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="index.html" class="text-decoration-none">
+                            <i class="fas fa-home me-2"></i>Voltar ao Início
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="passageiro.js"></script>
+</body>
+</html>

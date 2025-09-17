@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mototaxista - Moto Taxi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        .file-input-label {
+            display: block;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .file-input-label:hover {
+            background: #e9ecef;
+            border-color: #28a745;
+        }
+        .file-input-label.has-file {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-motorcycle me-3"></i>Área do Mototaxista
+                    </h1>
+                    <p class="lead mb-0">Cadastre-se como mototaxista e aguarde aprovação</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <!-- Alert Messages -->
+                    <div id="alertContainer"></div>
+
+                    <!-- Registration Form -->
+                    <div class="form-container" id="registrationForm">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-user-plus text-success me-2"></i>Cadastro de Mototaxista
+                        </h3>
+                        <p class="text-muted text-center mb-4">
+                            Preencha todos os campos abaixo para se cadastrar como mototaxista
+                        </p>
+                        
+                        <form id="mototaxistaForm">
+                            <div class="mb-3">
+                                <label for="cnh" class="form-label">
+                                    <i class="fas fa-id-card me-2"></i>CNH (Carteira Nacional de Habilitação)
+                                </label>
+                                <input type="text" class="form-control" id="cnh" placeholder="Digite o número da sua CNH" required>
+                                <div class="form-text">Exemplo: 12345678901</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="vehicleDocument" class="form-label">
+                                    <i class="fas fa-file-alt me-2"></i>Documento do Veículo
+                                </label>
+                                <input type="text" class="form-control" id="vehicleDocument" placeholder="Digite o número do documento do veículo" required>
+                                <div class="form-text">CRLV ou documento equivalente</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-camera me-2"></i>Foto do Mototaxista
+                                </label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="photo" accept="image/*" required>
+                                    <label for="photo" class="file-input-label" id="fileLabel">
+                                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                        <div>Clique para selecionar uma foto</div>
+                                        <small class="text-muted">Formatos aceitos: JPG, PNG, GIF</small>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-success btn-custom w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Enviar Cadastro
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div class="form-container hidden" id="successMessage">
+                        <div class="text-center">
+                            <div class="mb-4">
+                                <i class="fas fa-clock fa-4x text-warning"></i>
+                            </div>
+                            <h3 class="text-warning mb-3">Cadastro Enviado!</h3>
+                            <p class="text-muted mb-4">
+                                Seu cadastro foi recebido e está sob análise. 
+                                Sua conta será ativada após a aprovação manual do administrador.
+                            </p>
+                            <div class="alert alert-info alert-custom">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Próximos passos:</strong><br>
+                                • Aguarde a análise dos documentos<br>
+                                • Você receberá uma notificação por telefone<br>
+                                • Após aprovação, poderá fazer login
+                            </div>
+                            <button type="button" class="btn btn-outline-success btn-custom mt-3" id="newRegistration">
+                                <i class="fas fa-plus me-2"></i>Novo Cadastro
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="index.html" class="text-decoration-none">
+                            <i class="fas fa-home me-2"></i>Voltar ao Início
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="mototaxista.js"></script>
+</body>
+</html>
