@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Mototaxista - Moto Taxi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .user-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .ride-card {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .ride-card:hover {
+            border-color: #28a745;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.1);
+        }
+        .ride-card.accepted {
+            border-color: #28a745;
+            background-color: #f8fff9;
+        }
+        .ride-card.rejected {
+            border-color: #dc3545;
+            background-color: #fff8f8;
+        }
+        .status-badge {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+        }
+        .rating-stars {
+            color: #ffc107;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-motorcycle me-3"></i>Dashboard do Mototaxista
+                    </h1>
+                    <p class="lead mb-0">Gerencie suas corridas e aceite novas solicitações</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-md-12">
+                    <!-- User Info -->
+                    <div class="user-info">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="mb-2">
+                                    <i class="fas fa-motorcycle me-2"></i>
+                                    <span id="userName">Carregando...</span>
+                                </h4>
+                                <p class="text-muted mb-0">
+                                    <i class="fas fa-phone me-2"></i>
+                                    <span id="userPhone">Carregando...</span>
+                                </p>
+                                <p class="text-muted mb-0">
+                                    <i class="fas fa-star me-2"></i>
+                                    <span id="userRating">Carregando...</span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Sair
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Card -->
+                    <div class="dashboard-card">
+                        <!-- Status do Mototaxista -->
+                        <div class="text-center mb-4">
+                            <h3 class="mb-3">
+                                <i class="fas fa-toggle-on text-success me-2"></i>
+                                Status: <span id="statusText" class="text-success">Online</span>
+                            </h3>
+                            <button class="btn btn-outline-success btn-custom" id="toggleStatusBtn" onclick="toggleStatus()">
+                                <i class="fas fa-toggle-on me-2"></i>Ficar Offline
+                            </button>
+                        </div>
+
+                        <!-- Corridas Disponíveis -->
+                        <div class="mb-5">
+                            <h4 class="mb-4">
+                                <i class="fas fa-list me-2"></i>
+                                Corridas Disponíveis
+                            </h4>
+                            <div id="availableRides">
+                                <!-- As corridas serão carregadas dinamicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Corridas Aceitas -->
+                        <div class="mb-5">
+                            <h4 class="mb-4">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Corridas Aceitas
+                            </h4>
+                            <div id="acceptedRides">
+                                <!-- As corridas aceitas serão carregadas dinamicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Estatísticas -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">
+                                            <i class="fas fa-route me-2"></i>
+                                            <span id="totalRides">0</span>
+                                        </h5>
+                                        <p class="card-text">Total de Corridas</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-success">
+                                            <i class="fas fa-star me-2"></i>
+                                            <span id="averageRating">0.0</span>
+                                        </h5>
+                                        <p class="card-text">Avaliação Média</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-warning">
+                                            <i class="fas fa-dollar-sign me-2"></i>
+                                            <span id="totalEarnings">R$ 0,00</span>
+                                        </h5>
+                                        <p class="card-text">Ganhos Totais</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="index.html" class="text-decoration-none">
+                            <i class="fas fa-home me-2"></i>Voltar ao Início
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="mototaxista-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login do Mototaxista - Moto Taxi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-motorcycle me-3"></i>Login do Mototaxista
+                    </h1>
+                    <p class="lead mb-0">Faça login para acessar corridas disponíveis</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <!-- Alert Messages -->
+                    <div id="alertContainer"></div>
+
+                    <!-- Login Form -->
+                    <div class="form-container" id="loginForm">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-sign-in-alt text-success me-2"></i>Login
+                        </h3>
+                        <form id="loginFormElement">
+                            <div class="mb-3">
+                                <label for="loginPhone" class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Telefone
+                                </label>
+                                <input type="tel" class="form-control" id="loginPhone" placeholder="(11) 99999-9999" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="loginPassword" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Senha
+                                </label>
+                                <input type="password" class="form-control" id="loginPassword" placeholder="Digite sua senha" required>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-success btn-custom w-100">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Entrar
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-decoration-none" id="forgotPassword">
+                                    <i class="fas fa-key me-1"></i>Esqueci minha senha
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="index.html" class="text-decoration-none">
+                            <i class="fas fa-home me-2"></i>Voltar ao Início
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="mototaxista-login.js"></script>
+</body>
+</html>

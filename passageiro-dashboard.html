@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Passageiro - Moto Taxi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-online {
+            background-color: #28a745;
+        }
+        .status-offline {
+            background-color: #dc3545;
+        }
+        .user-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .call-button {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .call-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        .call-button:disabled {
+            background: #6c757d;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-user me-3"></i>Dashboard do Passageiro
+                    </h1>
+                    <p class="lead mb-0">Solicite sua corrida de mototáxi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <!-- User Info -->
+                    <div class="user-info">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="mb-2">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <span id="userName">Carregando...</span>
+                                </h4>
+                                <p class="text-muted mb-0">
+                                    <i class="fas fa-phone me-2"></i>
+                                    <span id="userPhone">Carregando...</span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Sair
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Card -->
+                    <div class="dashboard-card">
+                        <div class="text-center mb-4">
+                            <h3 class="mb-3">
+                                <i class="fas fa-motorcycle text-primary me-2"></i>
+                                Solicitar Corrida
+                            </h3>
+                            <p class="text-muted">
+                                Clique no botão abaixo para chamar um mototaxista disponível
+                            </p>
+                        </div>
+
+                        <!-- Status da Solicitação -->
+                        <div class="text-center mb-4">
+                            <div class="alert alert-info" id="statusAlert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <span id="statusText">Pronto para solicitar uma corrida</span>
+                            </div>
+                        </div>
+
+                        <!-- Botão de Chamada -->
+                        <div class="text-center mb-4">
+                            <button class="btn call-button btn-custom" id="callButton" onclick="callMototaxista()">
+                                <i class="fas fa-phone me-2"></i>
+                                Chamar Mototaxista
+                            </button>
+                        </div>
+
+                        <!-- Informações da Corrida (quando ativa) -->
+                        <div class="hidden" id="rideInfo">
+                            <div class="card border-primary">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-route me-2"></i>
+                                        Corrida em Andamento
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Mototaxista:</strong> <span id="mototaxistaName">João Silva</span></p>
+                                            <p><strong>Telefone:</strong> <span id="mototaxistaPhone">(11) 99999-9999</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Status:</strong> <span class="badge bg-warning" id="rideStatus">A caminho</span></p>
+                                            <p><strong>Tempo estimado:</strong> <span id="estimatedTime">5-10 min</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-danger btn-sm" onclick="cancelRide()">
+                                            <i class="fas fa-times me-2"></i>Cancelar Corrida
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Histórico de Corridas -->
+                        <div class="mt-5">
+                            <h5 class="mb-3">
+                                <i class="fas fa-history me-2"></i>
+                                Histórico de Corridas
+                            </h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Mototaxista</th>
+                                            <th>Status</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rideHistory">
+                                        <tr>
+                                            <td>15/01/2024 14:30</td>
+                                            <td>João Silva</td>
+                                            <td><span class="badge bg-success">Concluída</span></td>
+                                            <td>R$ 15,00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>14/01/2024 09:15</td>
+                                            <td>Maria Santos</td>
+                                            <td><span class="badge bg-success">Concluída</span></td>
+                                            <td>R$ 12,50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>13/01/2024 18:45</td>
+                                            <td>Pedro Costa</td>
+                                            <td><span class="badge bg-warning">Cancelada</span></td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="index.html" class="text-decoration-none">
+                            <i class="fas fa-home me-2"></i>Voltar ao Início
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="passageiro-dashboard.js"></script>
+</body>
+</html>

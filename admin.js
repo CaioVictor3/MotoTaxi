@@ -214,6 +214,22 @@ function executeAction() {
         registration.processedDate = new Date().toLocaleString('pt-BR');
         approvedRegistrations.push(registration);
         
+        // Adiciona à lista de mototaxistas aprovados para login
+        const approvedMototaxista = {
+            phone: registration.cnh, // Usando CNH como telefone para login
+            password: '123456', // Senha padrão
+            name: `Mototaxista ${registration.cnh.slice(-4)}`, // Nome baseado no CNH
+            cnh: registration.cnh,
+            status: 'approved',
+            rating: 4.5,
+            totalRides: 0
+        };
+        
+        // Salva na lista de mototaxistas aprovados
+        const existingApproved = JSON.parse(localStorage.getItem('mototaxistasAprovados') || '[]');
+        existingApproved.push(approvedMototaxista);
+        localStorage.setItem('mototaxistasAprovados', JSON.stringify(existingApproved));
+        
         showAlert('Cadastro aprovado com sucesso!', 'success');
     } else if (currentAction === 'reject') {
         // Move para rejeitados
