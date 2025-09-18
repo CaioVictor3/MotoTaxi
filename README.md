@@ -25,6 +25,7 @@ Moto Taxi/
 ├── mototaxista-dashboard.html   # Dashboard do mototaxista logado
 ├── admin.html                   # Tela do administrador
 ├── admin.js                     # Lógica do administrador
+├── teste-funcionalidades.html   # Página de teste de funcionalidades
 └── README.md                    # Documentação
 ```
 
@@ -137,6 +138,13 @@ Todas as telas são totalmente responsivas e funcionam em:
 - ✅ **Criado**: Dashboard do mototaxista após login bem-sucedido
 - ✅ **Implementado**: Sistema de logout com confirmação
 - ✅ **Implementado**: Persistência de dados de usuário logado
+- ✅ **Criado**: Página de teste de funcionalidades (`teste-funcionalidades.html`)
+
+### Correções de Segurança e UX
+- ✅ **Corrigido**: Mototaxistas reprovados são impedidos de fazer login
+- ✅ **Corrigido**: Notificações de login agora são exibidas corretamente
+- ✅ **Implementado**: Verificação de cadastros reprovados antes do login
+- ✅ **Melhorado**: Mensagens de erro mais específicas e informativas
 
 ## 🚀 Execução
 

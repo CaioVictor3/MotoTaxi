@@ -14,6 +14,7 @@ const loginFormElement = document.getElementById('loginFormElement');
 // Chaves para localStorage
 const MOTOTAXISTAS_KEY = 'mototaxistasAprovados';
 const PENDING_KEY = 'pendingMototaxistaRegistrations';
+const REJECTED_KEY = 'mototaxistasReprovados';
 
 /**
  * Inicialização da página
@@ -113,6 +114,15 @@ function handleLogin(event) {
         return;
     }
     
+    // Verifica se o mototaxista foi reprovado
+    const rejectedMototaxistas = JSON.parse(localStorage.getItem(REJECTED_KEY) || '[]');
+    const rejectedMototaxista = rejectedMototaxistas.find(m => m.cnh === cnh);
+    
+    if (rejectedMototaxista) {
+        showAlert('Seu cadastro foi reprovado pelo administrador. Entre em contato com o suporte para mais informações.', 'danger');
+        return;
+    }
+    
     // Busca o mototaxista pela CNH nos aprovados
     const mototaxista = approvedMototaxistas.find(m => m.cnh === cnh);
     
@@ -171,10 +181,16 @@ function handleForgotPassword(event) {
  * @param {string} type - Tipo do alerta ('success', 'danger', 'warning', 'info')
  */
 function showAlert(message, type) {
+    // Verifica se o container existe
+    if (!alertContainer) {
+        console.error('Container de alertas não encontrado');
+        return;
+    }
+    
     clearAlerts();
     
     const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom`;
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom mb-3`;
     alertDiv.innerHTML = `
         <i class="fas fa-${getAlertIcon(type)} me-2"></i>
         ${message}

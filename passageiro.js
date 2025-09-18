@@ -245,10 +245,16 @@ function handleForgotPassword(event) {
  * @param {string} type - Tipo do alerta ('success', 'danger', 'warning', 'info')
  */
 function showAlert(message, type) {
+    // Verifica se o container existe
+    if (!alertContainer) {
+        console.error('Container de alertas não encontrado');
+        return;
+    }
+    
     clearAlerts();
     
     const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom`;
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom mb-3`;
     alertDiv.innerHTML = `
         <i class="fas fa-${getAlertIcon(type)} me-2"></i>
         ${message}

@@ -237,6 +237,21 @@ function executeAction() {
         registration.processedDate = new Date().toLocaleString('pt-BR');
         rejectedRegistrations.push(registration);
         
+        // Adiciona à lista de mototaxistas reprovados para bloquear login
+        const rejectedMototaxista = {
+            phone: registration.cnh, // Usando CNH como telefone para login
+            password: registration.password, // Senha do cadastro
+            name: `Mototaxista ${registration.cnh.slice(-4)}`, // Nome baseado no CNH
+            cnh: registration.cnh,
+            status: 'rejected',
+            rejectionDate: new Date().toLocaleString('pt-BR')
+        };
+        
+        // Salva na lista de mototaxistas reprovados
+        const existingRejected = JSON.parse(localStorage.getItem('mototaxistasReprovados') || '[]');
+        existingRejected.push(rejectedMototaxista);
+        localStorage.setItem('mototaxistasReprovados', JSON.stringify(existingRejected));
+        
         showAlert('Cadastro reprovado.', 'warning');
     }
     
